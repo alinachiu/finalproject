@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Job Review</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Google fonts-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"
+      rel="stylesheet"
+    />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+  </head>
+  <body style="background-color: aliceblue">
+    <div class="container pt-5">
+      <h1>Congratulations!</h1>
+      <p>
+        You have successfully exposed the following information to us and we
+        have sold it to hundreds of companies across the globe (with your
+        permission, of course!):
+      </p>
+      <h4>Information You Provided:</h4>
+      <div id="results"></div>
+      <br />
+      <h4>Geolocation Data Based On IP Address:</h4>
+      <p id="location"></p>
+      <br />
+      <h4>
+        Thank you for keeping Co-Op! up and running by willingly donating your
+        metadata. Next time, read the terms of service before accepting them and
+        use a VPN if you don't want your current location to be exposed!
+      </h4>
+    </div>
+    <script>
+      const resultsList = document.getElementById("results");
+      new URLSearchParams(window.location.search).forEach((value, name) => {
+        resultsList.append(`${name}: ${value}`);
+        resultsList.append(document.createElement("br"));
+      });
+
+      var requestUrl = "http://ip-api.com/json";
+
+      $.ajax({
+        url: requestUrl,
+        type: "GET",
+        success: function (json) {
+          $("#location").html(
+            "Your IP Address Is: " +
+              json.query +
+              "<br>Your Current Location Is: " +
+              json.city +
+              ", " +
+              json.region +
+              ", " +
+              json.country +
+              "<br>Your Current Latitude: " +
+              json.lat +
+              "<br>Your Current Longitude: " +
+              json.lon +
+              "<br>Your Internet Service Provider: " +
+              json.isp +
+              "<br>Your Current Timezone: " +
+              json.timezone
+          );
+        },
+        error: function (err) {
+          console.log("Request failed, error= " + err);
+        },
+      });
+    </script>
+  </body>
+</html>
